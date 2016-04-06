@@ -38,16 +38,26 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\~Games\KSP_win_PluginTest_Minimal\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>D:\Steam\steamapps\common\Kerbal Space Program\KSP_x64_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>D:\Steam\steamapps\common\Kerbal Space Program\KSP_x64_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="KSPUtil">
+      <HintPath>D:\Steam\steamapps\common\Kerbal Space Program\KSP_x64_Data\Managed\KSPUtil.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\~Games\KSP_win_PluginTest_Minimal\KSP_Data\Managed\UnityEngine.dll</HintPath>
+    <Reference Include="UnityEngine">
+      <HintPath>D:\Steam\steamapps\common\Kerbal Space Program\KSP_x64_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>D:\Steam\steamapps\common\Kerbal Space Program\KSP_x64_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityScript.Lang">
+      <HintPath>D:\Steam\steamapps\common\Kerbal Space Program\KSP_x64_Data\Managed\UnityScript.Lang.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -102,6 +112,8 @@
 echo Finding KSP
 if exist "R:\~Games\KSP_Win_PlugInTest_Minimal\KSP.exe" (
 	set GAMEPATH="R:\~Games\KSP_Win_PlugInTest_Minimal"
+) else if exist "D:\Steam\steamapps\common\Kerbal Space Program\KSP.exe" (
+                   set GAMEPATH=D:\Steam\steamapps\common\Kerbal Space Program\
 ) else if exist "D:\~Games\KSP_Win_PlugInTest_Minimal\KSP.exe" (
 	set GAMEPATH="D:\~Games\KSP_Win_PlugInTest_Minimal"
 ) else if exist "C:\~Games\KSP_Win_PlugInTest_Minimal\KSP.exe" (
@@ -117,16 +129,18 @@ if exist "R:\~Games\KSP_Win_PlugInTest_Minimal\KSP.exe" (
 
 echo Gamepath: %25GAMEPATH%25
 echo ConfigName: $(ConfigurationName)
-set DestPath="%25GAMEPATH%25\GameData\TriggerTech\KerbalAlarmClock"
-set Binary="%25GAMEPATH%25\KSP.exe"
+set DestPath=%25GAMEPATH%25\GameData\TriggerTech\KerbalAlarmClock
+set Binary=%25GAMEPATH%25\KSP.exe
 
 if not $(ConfigurationName)==Debug goto DEBUGREBUILDCONFIG
 :DEBUGCONFIG
 rem Copy DLL and run KSP
+echo TargetPath: $(TargetPath)
 copy "$(TargetPath)" "%25DestPath%25"
 rem and then run the game
 if exist "$(ProjectDir)..\..\StartX.exe" goto STARTX
 echo Running Directly
+exit 0
 "%25Binary%25"
 goto END
 
